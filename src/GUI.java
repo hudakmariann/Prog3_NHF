@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
-import java.io.*;
+//import java.io.*;
 
 public class GUI extends JFrame{
 	//static final String gapList[] = {"0", "10", "15", "20"};
@@ -114,11 +114,35 @@ public class GUI extends JFrame{
         
         btnSaveAs.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView());
+                JFileChooser saveAsFileChooser = new JFileChooser(FileSystemView.getFileSystemView());
                 
                 // Open the save dialog
-                j.showSaveDialog(null);
-            }
+                //saveAsFileChooser.showSaveDialog(null);
+                
+                
+                int r = saveAsFileChooser.showSaveDialog(null);
+
+    			// if the user selects a file
+    			if (r == JFileChooser.APPROVE_OPTION)
+
+    			{
+    				// set the label to the path of the selected file
+    				//lblFileName.setText(openFileChooser.getSelectedFile().getAbsolutePath());
+    				//lblFileName.setText(saveAsFileChooser.getSelectedFile().getName());
+    				String fileName = saveAsFileChooser.getSelectedFile().getAbsolutePath();
+    				WriteImage.readfile(fileName);
+    				
+    				//ReadImage.readfile(fileName);
+    			
+
+    			}
+    			// if the user cancelled the operation
+    			else
+    				lblFileName.setText("the user cancelled the operation");
+    		}
+                
+                
+            
         });
         
         btnOpen.addActionListener(new ActionListener(){
@@ -127,10 +151,6 @@ public class GUI extends JFrame{
                 
                 // Open the save dialog
                 int r = openFileChooser.showOpenDialog(null);
-                
-                
-        		
-        			
 
         			// if the user selects a file
         			if (r == JFileChooser.APPROVE_OPTION)
@@ -141,10 +161,7 @@ public class GUI extends JFrame{
         				lblFileName.setText(openFileChooser.getSelectedFile().getName());
         				String fileName = openFileChooser.getSelectedFile().getAbsolutePath();
         				ReadImage.readfile(fileName);
-        				
-        				
-        				
-        				
+	
         			}
         			// if the user cancelled the operation
         			else

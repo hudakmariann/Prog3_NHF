@@ -1,15 +1,16 @@
 import java.io.*;
-import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.Scanner;
+//import java.nio.charset.Charset;
+//import java.util.Arrays;
+//import java.util.Scanner;
 
 public class ReadImage {
+	public static ImageParams imgParams;
 
 	public static void readfile(String fileName) {
 
 		String inputFile = fileName;
 		String outputFile = "./copy.ppm";
-
+		
 		BufferedReader reader;
 
 		try (InputStream inputStream = new FileInputStream(inputFile);
@@ -55,8 +56,9 @@ public class ReadImage {
 			String[] splited = fileinfo[1].trim().split("\\s+");
 			int Width = Integer.valueOf(splited[0]);
 			int Height = Integer.valueOf(splited[1]);
-			;
 			int Depth = Integer.valueOf(fileinfo[2]);
+			
+			
 			
 			
 			//ez olvassa be kulon a binaris reszt
@@ -140,19 +142,21 @@ public class ReadImage {
 					
 				}
 				//outputStream.write('\n');
-				System.out.println(str);
+				//System.out.println(str);
 				//str+="\n";
 				
 				//outputStream.write(str.getBytes(Charset.forName("UTF-8")));
 				
 			}
 
-
+			imgParams = new ImageParams(Width, Height, Depth, matrix);
 			reader.close();
+			
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
-
+		
+		//return imgParams;
 	}
 
 }
