@@ -118,8 +118,6 @@ public class ReadImage {
 		                        break;
 		                     }
 		                }//end case
-		                 
-		                 
 		            }// end for k
 		            matrix[i][j] = new PixelData(r,g,b);
 		        }//end for j

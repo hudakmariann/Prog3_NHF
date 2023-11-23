@@ -130,7 +130,7 @@ public class GUI extends JFrame{
     				//lblFileName.setText(openFileChooser.getSelectedFile().getAbsolutePath());
     				//lblFileName.setText(saveAsFileChooser.getSelectedFile().getName());
     				String fileName = saveAsFileChooser.getSelectedFile().getAbsolutePath();
-    				WriteImage.readfile(fileName);
+    				WriteImage.writefile(fileName);
     				
     				//ReadImage.readfile(fileName);
     			
