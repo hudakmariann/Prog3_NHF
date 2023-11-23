@@ -4,7 +4,7 @@ import java.io.*;
 //import java.util.Scanner;
 
 public class ReadImage {
-	public static ImageParams imgParams;
+	
 
 	public static void readfile(String fileName) {
 
@@ -147,7 +147,7 @@ public class ReadImage {
 				
 			}
 
-			imgParams = new ImageParams(Width, Height, Depth, matrix);
+			HSVBase.imgParams = new ImageParams(Width, Height, Depth, matrix);
 			reader.close();
 			
 		} catch (IOException ex) {
