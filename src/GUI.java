@@ -80,7 +80,11 @@ public class GUI extends JFrame{
         btnContrast.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 //Get the horizontal gap value
-                System.out.println("Contrast = " + spContrast.getValue());
+            	Integer p = (Integer)spContrast.getValue();
+            	double percent = (double)p;
+            	Contrast contrast = new Contrast(percent);
+                System.out.println("Contrast = " + percent);
+                contrast.execute(percent);
             }
         });
         
