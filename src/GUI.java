@@ -4,7 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
-//import java.io.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+//import File;
+import java.io.*;
 
 public class GUI extends JFrame{
 	//static final String gapList[] = {"0", "10", "15", "20"};
@@ -119,6 +121,10 @@ public class GUI extends JFrame{
         btnSaveAs.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 JFileChooser saveAsFileChooser = new JFileChooser(FileSystemView.getFileSystemView());
+                saveAsFileChooser.setAcceptAllFileFilterUsed(false);
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(".ppm", "ppm");
+                saveAsFileChooser.addChoosableFileFilter(filter);
+                //saveAsFileChooser.setFileFilter(filter);
                 
                 // Open the save dialog
                 //saveAsFileChooser.showSaveDialog(null);
@@ -134,6 +140,9 @@ public class GUI extends JFrame{
     				//lblFileName.setText(openFileChooser.getSelectedFile().getAbsolutePath());
     				//lblFileName.setText(saveAsFileChooser.getSelectedFile().getName());
     				String fileName = saveAsFileChooser.getSelectedFile().getAbsolutePath();
+    				
+    					fileName+="."+filter.getExtensions()[0];
+    				
     				WriteImage.writefile(fileName);
     				
     				//ReadImage.readfile(fileName);
@@ -152,6 +161,11 @@ public class GUI extends JFrame{
         btnOpen.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 JFileChooser openFileChooser = new JFileChooser(FileSystemView.getFileSystemView());
+                
+                openFileChooser.setAcceptAllFileFilterUsed(false);
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(".ppm", "ppm");
+                openFileChooser.setFileFilter(filter);
+                
                 
                 // Open the save dialog
                 int r = openFileChooser.showOpenDialog(null);
