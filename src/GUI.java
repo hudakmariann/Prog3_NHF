@@ -121,6 +121,8 @@ public class GUI extends JFrame{
             public void actionPerformed(ActionEvent e){
                 //Get the horizontal gap value
                 System.out.println("FindEdges");
+                FindEdges findedges = new FindEdges();
+                findedges.execute(0);
             }
         });
         

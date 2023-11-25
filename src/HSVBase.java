@@ -1,11 +1,11 @@
 
-public class HSVBase {
+public abstract class HSVBase {
 
 	
 	public static ImageParams imgParams;
 	
 	
-	public void execute (double d) {};
+	public  abstract void execute (double d);
 
 	private double minRGB(double r, double g, double b) {
 		double[] rgb = new double[3];
