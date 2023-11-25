@@ -7,10 +7,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 
 public class GUI extends JFrame {
-	// static final String gapList[] = {"0", "10", "15", "20"};
-	// final static int maxGap = 20;
-	// JComboBox horGapComboBox;
-	// JComboBox verGapComboBox;
 	JButton btnOpen = new JButton("Open Image");
 	JButton btnSave = new JButton("Save");
 	JButton btnSaveAs = new JButton("Save As");
@@ -31,15 +27,6 @@ public class GUI extends JFrame {
 		JPanel controls = new JPanel();
 		controls.setLayout(new GridLayout(4, 1));
 
-		// Set up components preferred size
-		/*
-		 * JButton b = new JButton("Just fake button"); Dimension buttonSize =
-		 * b.getPreferredSize(); imageProcControls.setPreferredSize(new
-		 * Dimension((int)(buttonSize.getWidth() * 2.5)+maxGap,
-		 * (int)(buttonSize.getHeight() * 3.5)+maxGap * 2));
-		 */
-
-		// Add buttons to experiment with Grid Layout
 		JButton btnContrast = new JButton("Modify Contrast");
 		imageProcControls.add(btnContrast);
 		JSpinner spContrast = new JSpinner(new SpinnerNumberModel(0, -100, 100, 1));
@@ -63,21 +50,14 @@ public class GUI extends JFrame {
 		JButton btnFindEdges = new JButton("Find Edges");
 		imageProcControls.add(btnFindEdges);
 
-		// Add controls to set up horizontal and vertical gaps
-		/*
-		 * controls.add(new Label("Horizontal gap:")); controls.add(new
-		 * Label("Vertical gap:")); controls.add(new Label(" "));
-		 */
 		controls.add(btnOpen);
 		controls.add(btnSave);
 		controls.add(btnSaveAs);
 		controls.add(lblFileName);
 
-		// Process the Apply gaps button press
-
 		btnContrast.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Get the horizontal gap value
+				
 				Integer p = (Integer) spContrast.getValue();
 				double percent = (double) p;
 				Contrast contrast = new Contrast(percent);
@@ -88,7 +68,7 @@ public class GUI extends JFrame {
 
 		btnBrightness.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Get the horizontal gap value
+				
 				Integer p = (Integer) spBrightness.getValue();
 				double percent = (double) p;
 				Brightness brightness = new Brightness(percent);
@@ -120,7 +100,7 @@ public class GUI extends JFrame {
 
 		btnFindEdges.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Get the horizontal gap value
+				
 				System.out.println("FindEdges");
 				FindEdges findedges = new FindEdges();
 				findedges.execute(0);
@@ -141,30 +121,16 @@ public class GUI extends JFrame {
 				saveAsFileChooser.setAcceptAllFileFilterUsed(false);
 				FileNameExtensionFilter filter = new FileNameExtensionFilter(".ppm", "ppm");
 				saveAsFileChooser.addChoosableFileFilter(filter);
-				// saveAsFileChooser.setFileFilter(filter);
-
-				// Open the save dialog
-				// saveAsFileChooser.showSaveDialog(null);
-
+				
 				int r = saveAsFileChooser.showSaveDialog(null);
 
-				// if the user selects a file
-				if (r == JFileChooser.APPROVE_OPTION)
-
-				{
-					// set the label to the path of the selected file
-					// lblFileName.setText(openFileChooser.getSelectedFile().getAbsolutePath());
-					// lblFileName.setText(saveAsFileChooser.getSelectedFile().getName());
+				
+				if (r == JFileChooser.APPROVE_OPTION){
 					String fileName = saveAsFileChooser.getSelectedFile().getAbsolutePath();
-
 					fileName += "." + filter.getExtensions()[0];
-
 					WriteImage.writefile(fileName);
-
-					// ReadImage.readfile(fileName);
-
 				}
-				// if the user cancelled the operation
+				
 				else
 					lblFileName.setText("the user cancelled the operation");
 			}
@@ -179,49 +145,34 @@ public class GUI extends JFrame {
 				FileNameExtensionFilter filter = new FileNameExtensionFilter(".ppm", "ppm");
 				openFileChooser.setFileFilter(filter);
 
-				// Open the save dialog
 				int r = openFileChooser.showOpenDialog(null);
 
-				// if the user selects a file
+				
 				if (r == JFileChooser.APPROVE_OPTION)
 
 				{
-					// set the label to the path of the selected file
-					// lblFileName.setText(openFileChooser.getSelectedFile().getAbsolutePath());
+					
 					lblFileName.setText(openFileChooser.getSelectedFile().getName());
 					String fileName = openFileChooser.getSelectedFile().getAbsolutePath();
 					ReadImage.readfile(fileName);
 					inputfilename = fileName;
 
 				}
-				// if the user cancelled the operation
+				
 				else
-					lblFileName.setText("the user cancelled the operation");
+					lblFileName.setText("operation cancelled");
 			}
 
 		});
 
-		/*
-		 * applyButton.addActionListener(new ActionListener(){ public void
-		 * actionPerformed(ActionEvent e){ //Get the horizontal gap value String horGap
-		 * = (String)horGapComboBox.getSelectedItem(); //Get the vertical gap value
-		 * String verGap = (String)verGapComboBox.getSelectedItem(); //Set up the
-		 * horizontal gap value experimentLayout.setHgap(Integer.parseInt(horGap));
-		 * //Set up the vertical gap value
-		 * experimentLayout.setVgap(Integer.parseInt(verGap)); //Set up the layout of
-		 * the buttons experimentLayout.layoutContainer(imageProcControls); } });
-		 */
+		
 		pane.add(imageProcControls, BorderLayout.SOUTH);
 		pane.add(new JSeparator(), BorderLayout.CENTER);
 		pane.add(controls, BorderLayout.NORTH);
 	}
 
-	/**
-	 * Create the GUI and show it. For thread safety, this method is invoked from
-	 * the event dispatch thread.
-	 */
+
 	private static void createAndShowGUI() {
-		// Create and set up the window.
 		GUI frame = new GUI("ImageProcessing");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// Set up the content pane.
@@ -232,7 +183,7 @@ public class GUI extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		/* Use an appropriate Look and Feel */
+	
 		try {
 			// UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");

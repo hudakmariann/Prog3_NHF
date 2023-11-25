@@ -11,6 +11,7 @@ public class HSVData {
 		v = val;
 		
 	}
+	//kesobbi bovithetoseg miatt csinaltam ilyen konstruktort is
 	public HSVData(HSVData hsvData) {
 		h = hsvData.h;
 		s = hsvData.s;

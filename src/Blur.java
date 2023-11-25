@@ -32,23 +32,19 @@ public class Blur extends HSVBase {
 
 		double filtersum = 0;
 
-		//System.out.print("\nThe blur filter is:\n");
 		for (int i = 0; i < filtersize; i++) {
 			for (int j = 0; j < filtersize; j++) {
 				filter[i][j] = centerweight - ((Math.abs(kozepe - i)) + Math.abs(kozepe - j));
 				if (filter[i][j] < 1)
 					filter[i][j] = 1;
-				// printf("%2.f ", filter[i][j]);
+
 				filtersum += filter[i][j];
 			}
-			// printf("\n");
 		}
 
 		double r, g, b = 0;
 		for (int y = 0; y < imgParams.Height; y++) {
 			for (int x = 0; x < imgParams.Width; x++) {
-
-				PixelData[][] window = new PixelData[filtersize][filtersize];
 				double windowsum_r = 0;
 				double windowsum_g = 0;
 				double windowsum_b = 0;
@@ -92,16 +88,13 @@ public class Blur extends HSVBase {
 				imgParams.RGBMatrix[i][j] = filteredIMG[i][j];
 			} // end for j
 		} // end for i
-		System.out.println("blur kesz.");
+		System.out.println("Blur ready.");
 	}
 
 	@Override
 	public void execute(double fsize) {
-
 		this.filtersize = (int) fsize;
 		blurImage();
-		// HSVtoRGB();
-
 	}
 
 }

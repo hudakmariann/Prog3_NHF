@@ -4,22 +4,12 @@ public class FindEdges extends HSVBase {
 	private double szele = 1;
 
 	private void findEdges() {
-		
-		double h =0;
-		double s =0;
+
+		double h = 0;
+		double s = 0;
 		double v = 0;
-		
-		
 
 		HSVData[][] filteredHSV = new HSVData[imgParams.Height][imgParams.Width];
-
-		/*for (int y = 0; y < imgParams.Height; ++y) {
-			for (int x = 0; x < imgParams.Width; x++) {
-				filteredHSV[y][x].h = 0;
-				filteredHSV[y][x].s = 0;
-				filteredHSV[y][x].v = 0;
-			}
-		}*/
 
 		for (int y = 0; y < imgParams.Height; y++) {
 			for (int x = 0; x < imgParams.Width; x++) {
@@ -41,12 +31,11 @@ public class FindEdges extends HSVBase {
 				for (int i = 0; i < 8; i++) {
 					sum += surround[i];
 				}
-				 h = imgParams.HSVMatrix[y][x].h;
-				 s = 0;
-				 v = (-8) * imgParams.HSVMatrix[y][x].v + sum;
-				
-				filteredHSV[y][x] = new HSVData(h,s,v);
-				
+				h = imgParams.HSVMatrix[y][x].h;
+				s = 0;
+				v = (-8) * imgParams.HSVMatrix[y][x].v + sum;
+
+				filteredHSV[y][x] = new HSVData(h, s, v);
 
 			} // end for x
 		} // end for y
@@ -56,13 +45,13 @@ public class FindEdges extends HSVBase {
 				imgParams.HSVMatrix[i][j] = filteredHSV[i][j];
 			} // end for j
 		} // end for i
-
+		System.out.println("FindEdges ready.");
 	}
 
 	@Override
 	public void execute(double size) {
 		if (imgParams.HSVMatrix == null) {
-			System.out.println("RGBtoHSV called.");
+
 			RGBtoHSV();
 		}
 		findEdges();
