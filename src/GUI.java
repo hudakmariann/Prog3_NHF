@@ -1,5 +1,3 @@
-
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -93,14 +91,22 @@ public class GUI extends JFrame{
         btnBrightness.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 //Get the horizontal gap value
-                System.out.println("Brightness = " + spBrightness.getValue());
+            	Integer p = (Integer)spBrightness.getValue();
+            	double percent = (double)p;
+            	Brightness brightness = new Brightness(percent);
+                System.out.println("Brightness = " + percent);
+                brightness.execute(percent);
+               
             }
         });
         
         btnSaturation.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                //Get the horizontal gap value
-                System.out.println("Saturation = " + spSaturation.getValue());
+            	Integer p = (Integer)spSaturation.getValue();
+            	double percent = (double)p;
+            	Saturation saturation = new Saturation(percent);
+                System.out.println("Saturation = " + percent);
+                saturation.execute(percent);
             }
         });
         
