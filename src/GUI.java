@@ -210,7 +210,9 @@ public class GUI extends JFrame {
 					
 					lblFileName.setText(openFileChooser.getSelectedFile().getName());
 					String fileName = openFileChooser.getSelectedFile().getAbsolutePath();
+					try {
 					ReadImage.readfile(fileName);
+					} catch (invalidFileTypeException ivft) {}
 					inputfilename = fileName;
 					
 					btnContrast.setEnabled(true);
@@ -278,8 +280,11 @@ public class GUI extends JFrame {
 		/* Turn off metal's use of bold fonts */
 		UIManager.put("swing.boldMetal", Boolean.FALSE);
 
-		String[][] data = { { "Brightness", "70" }, { "Contrast", "42" } };
-
+		//String[][] data = { { "Brightness", "70" }, { "Contrast", "42" } };
+		
+		
+		
+		
 		
 		// Schedule a job for the event dispatch thread:
 		// creating and showing this application's GUI.

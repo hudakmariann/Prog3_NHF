@@ -7,7 +7,7 @@ public class FindEdges extends HSVBase {
         return "FindEdges";
      } 
 
-	private void findEdges() {
+	public boolean findEdges() {
 
 		double h = 0;
 		double s = 0;
@@ -50,6 +50,7 @@ public class FindEdges extends HSVBase {
 			} // end for j
 		} // end for i
 		System.out.println("FindEdges ready.");
+		return true;
 	}
 
 	@Override

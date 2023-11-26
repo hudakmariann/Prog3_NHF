@@ -10,9 +10,14 @@ public class Blur extends HSVBase {
 	public String toString() { 
         return "Blur";
      } 
+	
+	
+	
 
-	private void blurImage() {
-
+	public boolean blurImage(double fs) {
+		int filtersize = (int)fs;
+		
+	
 		double szele = 127;
 		int kozepe;
 		double centerweight;
@@ -93,12 +98,15 @@ public class Blur extends HSVBase {
 			} // end for j
 		} // end for i
 		System.out.println("Blur ready.");
+		
+		
+		return true;
 	}
 
 	@Override
 	public void execute(double fsize) {
 		this.filtersize = (int) fsize;
-		blurImage();
+		blurImage(fsize);
 	}
 
 }

@@ -9,8 +9,22 @@ public class Brightness extends HSVBase {
 	public String toString() { 
         return "Brightness";
      } 
+	
+	private double mean() {
+		double result = 0;
+		int i = 0;
+		int j = 0;
+		for ( i = 0; i < imgParams.Height; i++) {
+			for ( j = 0; j < imgParams.Width; j++) {
+				result += imgParams.HSVMatrix[i][j].v;
+			} // end for j
+		} // end for i
+		return (result/(i*j));
+	}
 
-	private void setBrightness() {
+	public double setBrightness() {
+		
+		double meanBefore = mean();
 
 		if (percent_ < -100)
 			percent_ = -100;
@@ -24,6 +38,9 @@ public class Brightness extends HSVBase {
 				imgParams.HSVMatrix[i][j].v = imgParams.HSVMatrix[i][j].v * (1 + percent_);
 			} // end for j
 		} // end for i
+		
+		double meanAfter = mean();
+		return (meanBefore - meanAfter); //JUnit teszthez, hogy lassuk, valtozott-e
 	}
 
 	@Override

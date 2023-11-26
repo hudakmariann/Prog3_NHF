@@ -2,8 +2,8 @@ import java.io.*;
 
 public class WriteImage {
 
-	public static void writefile(String fileName) {
-
+	public static boolean writefile(String fileName) {
+		boolean result = false; //JUnit teszthez
 		String outputFile = fileName;
 		System.out.println(outputFile);
 
@@ -41,11 +41,13 @@ public class WriteImage {
 
 			imageWriter.close();
 			System.out.println("Writing to file completed");
+			result = true;
+			
 		} catch (IOException e) {
 			System.out.println("Error occured while writing to file.");
 			e.printStackTrace();
 		}
-
+		return result;
 	}
 
 }

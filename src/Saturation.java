@@ -10,7 +10,22 @@ public class Saturation extends HSVBase {
          return "Saturation";
       } 
 
-	private void setSaturation() {
+	 
+	 private double mean() {  //JUnit teszthez
+			double result = 0;
+			int i = 0;
+			int j = 0;
+			for ( i = 0; i < imgParams.Height; i++) {
+				for ( j = 0; j < imgParams.Width; j++) {
+					result += imgParams.HSVMatrix[i][j].s;
+				} // end for j
+			} // end for i
+			return (result/(i*j));
+		}
+	 
+	public double setSaturation() {
+		
+		double meanBefore = mean(); //JUnit teszthez
 
 		if (percent_ < -100)
 			percent_ = -100;
@@ -22,6 +37,9 @@ public class Saturation extends HSVBase {
 				imgParams.HSVMatrix[i][j].s = imgParams.HSVMatrix[i][j].s * (1 + percent_);
 			} // end for j
 		} // end for i
+		
+		double meanAfter = mean(); 
+		return (meanBefore - meanAfter); //JUnit teszthez, hogy lassuk, valtozott-e
 	}
 
 	@Override

@@ -1,13 +1,19 @@
 
 public abstract class HSVBase {
+	
+	
 
 	
 	public static ImageParams imgParams;
 	
+	//normál esetben az imgParams-on kjvül semmi nem lenne static
+	//de a Junit test másképp nem tud ezekhez hozzáférni, mert nem példányosítható (abstract osztály)
+	//amúgy sem public hanem protected lenne itt a legtöbb metódus
+	
 	
 	public  abstract void execute (double d);
 
-	private double minRGB(double r, double g, double b) {
+	private static double minRGB(double r, double g, double b) {
 		double[] rgb = new double[3];
 		rgb[0] = r;
 		rgb[1] = g;
@@ -20,7 +26,7 @@ public abstract class HSVBase {
 		return min;
 	}
 
-	private double maxRGB(double r, double g, double b) {
+	private static double maxRGB(double r, double g, double b) {
 		double[] rgb = new double[3];
 		rgb[0] = r;
 		rgb[1] = g;
@@ -34,12 +40,13 @@ public abstract class HSVBase {
 		return max;
 	}
 	
-	protected void RGBtoHSV(){
+		
+	protected  static boolean  RGBtoHSV(){ //protected void lenne, de a JUnit test miatt kell public, meg boolean
 	    double min, max, diff;
 	    double r, g, b;
 	    double h,s,v;
 	    
-	    HSVData px = new HSVData(255,127,0);
+	    HSVData px = new HSVData(0,0,0);
 		HSVData[][] HSVmatrix = new HSVData[imgParams.Height][imgParams.Width];
 		for (int i = 0; i < imgParams.Height; i++) {
 			for (int j = 0; j < imgParams.Width; j++) {
@@ -89,10 +96,32 @@ public abstract class HSVBase {
 	   
 	    ImageParams.SetHSVMatrix( imgParams.Height,  imgParams.Width, HSVmatrix);
 	    System.out.println("RGBtoHSV Ready.");
+	    
+	    // JUnit teszthez megnezem, letezik-e a HSVMatrix, es nem maradt-e minden 0
+		// benne
+		if (HSVBase.imgParams.HSVMatrix == null) {
+			System.out.println("false");
+			return false;
+
+		}
+
+		for (int i = 0; i < HSVBase.imgParams.Height; i++) {
+			for (int j = 0; j < HSVBase.imgParams.Width; j++) {
+				if (HSVBase.imgParams.HSVMatrix[i][j].h > 0 || HSVBase.imgParams.HSVMatrix[i][j].s > 0
+						|| HSVBase.imgParams.HSVMatrix[i][j].v > 0)
+					System.out.println("true");
+				return true;
+			}
+		}
+		System.out.println("false");
+		return false;
+
 	}
 	
 	
-	protected void HSVtoRGB(){
+	
+	
+	public static boolean  HSVtoRGB(){ //ez is csak a JUnit test miatt public static boolean
 	    
 	    double h=0, s=0, v=0;
 	    double r=0, g=0, b=0;
@@ -179,6 +208,28 @@ public abstract class HSVBase {
 	            }//end for j
 	        }//end for i
 	    System.out.println("HSVtoRGB ready.");
+	    
+	    
+	    if (HSVBase.imgParams.RGBMatrix == null) {
+			System.out.println("false");
+			return false;
+
+		}
+
+	    //itt a JUnit teszthez ellenőrzöm, hogy valid, 0-255 közötti értékek jöttek-e ki
+	    
+		for (int i = 0; i < HSVBase.imgParams.Height; i++) {
+			for (int j = 0; j < HSVBase.imgParams.Width; j++) {
+				if ((HSVBase.imgParams.RGBMatrix[i][j].r > 0 && HSVBase.imgParams.RGBMatrix[i][j].r < 256) 
+						|| (HSVBase.imgParams.RGBMatrix[i][j].g > 0 && HSVBase.imgParams.RGBMatrix[i][j].g < 256) 
+						|| (HSVBase.imgParams.RGBMatrix[i][j].b > 0 && HSVBase.imgParams.RGBMatrix[i][j].b < 256)) 
+					System.out.println("true");
+				return true;
+			}
+		}
+		System.out.println("false");
+		return false;
+
 	}
 
 	

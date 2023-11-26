@@ -37,12 +37,15 @@ public class Contrast extends HSVBase {
 		return min;
 	}
 
-	private void setContrast() {
+	
+	
+	public double setContrast() {  
 		int h = imgParams.Height;
 		int w = imgParams.Width;
 
 		double max = maxval();
 		double min = minval();
+		double diffBefore = max - min;  //JUnit testhez, hogy megnezzuk, valtozott-e a kulonbseg a lefutas utan
 
 		if (percent_ < -100)
 			percent_ = -100;
@@ -58,6 +61,12 @@ public class Contrast extends HSVBase {
 			} // end for j
 		} // end for i
 		System.out.println("Contrast ready.");
+		
+		max = maxval();
+		min = minval();
+		double diffAfter = max-min;
+		return diffBefore - diffAfter;
+		
 	}
 
 	@Override
