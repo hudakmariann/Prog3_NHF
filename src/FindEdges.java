@@ -2,6 +2,10 @@
 public class FindEdges extends HSVBase {
 	private double[] surround = new double[8];
 	private double szele = 1;
+	
+	public String toString() { 
+        return "FindEdges";
+     } 
 
 	private void findEdges() {
 

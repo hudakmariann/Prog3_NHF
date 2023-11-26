@@ -2,9 +2,14 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 //import File;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.swing.JTable;
 
 public class GUI extends JFrame {
 	JButton btnOpen = new JButton("Open Image");
@@ -15,9 +20,15 @@ public class GUI extends JFrame {
 
 	private String inputfilename;
 
+	private static HashMap<HSVBase, Double> FilterMap;
+
 	public GUI(String name) {
 		super(name);
 		setResizable(false);
+
+		// Filters = new ArrayList<HSVBase>();
+		FilterMap = new HashMap<HSVBase, Double>();
+
 	}
 
 	public void addComponentsToPane(final Container pane) {
@@ -28,30 +39,41 @@ public class GUI extends JFrame {
 		controls.setLayout(new GridLayout(4, 1));
 
 		JButton btnContrast = new JButton("Modify Contrast");
+		btnContrast.setEnabled(false);
 		imageProcControls.add(btnContrast);
 		JSpinner spContrast = new JSpinner(new SpinnerNumberModel(0, -100, 100, 1));
 		imageProcControls.add(spContrast);
 
 		JButton btnBrightness = new JButton("Modify Brightness");
+		btnBrightness.setEnabled(false);
 		imageProcControls.add(btnBrightness);
 		JSpinner spBrightness = new JSpinner(new SpinnerNumberModel(0, -100, 100, 1));
 		imageProcControls.add(spBrightness);
 
 		JButton btnSaturation = new JButton("Modify Saturation");
+		btnSaturation.setEnabled(false);
 		imageProcControls.add(btnSaturation);
 		JSpinner spSaturation = new JSpinner(new SpinnerNumberModel(0, -100, 100, 1));
 		imageProcControls.add(spSaturation);
 
 		JButton btnBlur = new JButton("Blur image");
+		btnBlur.setEnabled(false);
 		imageProcControls.add(btnBlur);
 		JSpinner spBlur = new JSpinner(new SpinnerNumberModel(0, 0, 20, 1));
 		imageProcControls.add(spBlur);
 
 		JButton btnFindEdges = new JButton("Find Edges");
+		btnFindEdges.setEnabled(false);
 		imageProcControls.add(btnFindEdges);
+		
+		JButton btnApply = new JButton("Apply Filters");
+		btnApply.setEnabled(false);
+		imageProcControls.add(btnApply);
 
 		controls.add(btnOpen);
+		btnSave.setEnabled(false);
 		controls.add(btnSave);
+		btnSaveAs.setEnabled(false);
 		controls.add(btnSaveAs);
 		controls.add(lblFileName);
 
@@ -62,7 +84,10 @@ public class GUI extends JFrame {
 				double percent = (double) p;
 				Contrast contrast = new Contrast(percent);
 				System.out.println("Contrast = " + percent);
-				contrast.execute(percent);
+				//contrast.execute(percent);
+				
+				FilterMap.put(contrast,  percent);
+				btnApply.setEnabled(true);
 			}
 		});
 
@@ -73,7 +98,10 @@ public class GUI extends JFrame {
 				double percent = (double) p;
 				Brightness brightness = new Brightness(percent);
 				System.out.println("Brightness = " + percent);
-				brightness.execute(percent);
+				//brightness.execute(percent);
+				
+				FilterMap.put(brightness,  percent);
+				btnApply.setEnabled(true);
 
 			}
 		});
@@ -84,7 +112,10 @@ public class GUI extends JFrame {
 				double percent = (double) p;
 				Saturation saturation = new Saturation(percent);
 				System.out.println("Saturation = " + percent);
-				saturation.execute(percent);
+				//saturation.execute(percent);
+				
+				FilterMap.put(saturation,  percent);
+				btnApply.setEnabled(true);
 			}
 		});
 
@@ -94,7 +125,10 @@ public class GUI extends JFrame {
 				double fsize = (double) fs;
 				Blur blur = new Blur(fsize);
 				System.out.println("Blur = " + fsize);
-				blur.execute(fsize);
+				//blur.execute(fsize);
+				
+				FilterMap.put(blur,  fsize);
+				btnApply.setEnabled(true);
 			}
 		});
 
@@ -103,9 +137,31 @@ public class GUI extends JFrame {
 				
 				System.out.println("FindEdges");
 				FindEdges findedges = new FindEdges();
-				findedges.execute(0);
+				//findedges.execute(101.0);
+				
+				FilterMap.put(findedges,  101.0);
+				btnApply.setEnabled(true);
 			}
 		});
+		
+		btnApply.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				System.out.println("Apply");
+				showTable();
+				
+				//itt az iteracio a kollekcion vegig
+				for (HashMap.Entry<HSVBase, Double> entry : FilterMap.entrySet()) {
+					if(entry.getValue()!=0.0) {
+						System.out.println(entry.getKey().toString());
+					entry.getKey().execute(entry.getValue());
+					}
+					
+					
+				}
+			}
+		});
+
 
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -156,6 +212,14 @@ public class GUI extends JFrame {
 					String fileName = openFileChooser.getSelectedFile().getAbsolutePath();
 					ReadImage.readfile(fileName);
 					inputfilename = fileName;
+					
+					btnContrast.setEnabled(true);
+					btnBrightness.setEnabled(true);
+					btnSaturation.setEnabled(true);
+					btnBlur.setEnabled(true);
+					btnFindEdges.setEnabled(true);
+					btnSave.setEnabled(true);
+					btnSaveAs.setEnabled(true);
 
 				}
 				
@@ -171,6 +235,21 @@ public class GUI extends JFrame {
 		pane.add(controls, BorderLayout.NORTH);
 	}
 
+	public void showTable() {
+
+		String[][] data2 = new String[10][2];
+
+		int i = 0;
+		for (HashMap.Entry<HSVBase, Double> entry : FilterMap.entrySet()) {
+			HSVBase filter = entry.getKey();
+			data2[i][0] = entry.getKey().toString();
+			data2[i][1] = entry.getValue().toString();
+			i++;
+		}
+
+		FiltersTable filters = new FiltersTable(data2);
+
+	}
 
 	private static void createAndShowGUI() {
 		GUI frame = new GUI("ImageProcessing");
@@ -183,7 +262,7 @@ public class GUI extends JFrame {
 	}
 
 	public static void main(String[] args) {
-	
+
 		try {
 			// UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
@@ -199,6 +278,9 @@ public class GUI extends JFrame {
 		/* Turn off metal's use of bold fonts */
 		UIManager.put("swing.boldMetal", Boolean.FALSE);
 
+		String[][] data = { { "Brightness", "70" }, { "Contrast", "42" } };
+
+		
 		// Schedule a job for the event dispatch thread:
 		// creating and showing this application's GUI.
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -206,6 +288,7 @@ public class GUI extends JFrame {
 				createAndShowGUI();
 			}
 		});
+
 	}
 
 }

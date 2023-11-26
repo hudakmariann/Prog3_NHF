@@ -6,6 +6,10 @@ public class Blur extends HSVBase {
 	public Blur(double fs) {
 		int filtersize = (int) fs;
 	}
+	
+	public String toString() { 
+        return "Blur";
+     } 
 
 	private void blurImage() {
 

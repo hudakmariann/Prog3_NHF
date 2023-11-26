@@ -7,6 +7,10 @@ public class Contrast extends HSVBase {
 		percent_ = p;
 
 	}
+	
+	public String toString() { 
+        return "Contrast";
+     } 
 
 	private double maxval() {
 		double max = 0.0;

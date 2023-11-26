@@ -5,6 +5,10 @@ public class Brightness extends HSVBase {
 	public Brightness(double p) {
 		percent_ = p;
 	}
+	
+	public String toString() { 
+        return "Brightness";
+     } 
 
 	private void setBrightness() {
 

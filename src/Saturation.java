@@ -5,6 +5,10 @@ public class Saturation extends HSVBase {
 	public Saturation(double p) {
 		percent_ = p;
 	}
+	
+	 public String toString() { 
+         return "Saturation";
+      } 
 
 	private void setSaturation() {
 
